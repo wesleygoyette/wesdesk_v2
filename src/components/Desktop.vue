@@ -19,8 +19,8 @@ import DesktopNode from './DesktopNode.vue'
 const desktopNodes = ref([
     {
         id: 0,
-        name: 'My PC',
-        imgUrl: '/MyPc.png',
+        name: 'File Explorer',
+        imgUrl: '/fileExplorer.png',
         x: 0,
         y: 0
     },
@@ -30,6 +30,13 @@ const desktopNodes = ref([
         imgUrl: '/shell.png',
         x: 0,
         y: 1
+    },
+    {
+        id: 1,
+        name: 'Resume.pdf',
+        imgUrl: '/pdf.png',
+        x: 0,
+        y: 2
     }
 ])
 

@@ -12,10 +12,16 @@
 
 <script setup>
 import { nextTick, ref } from 'vue'
+import useFileSystem from '../../composables/useFilesystem.js'
 
 const emit = defineEmits(['exit-app'])
 
-const prompt = 'C:/Users/wesleygoyette>'
+const { findPath, getPath } = useFileSystem()
+let currFolder = findPath('/Users/wesleygoyette')
+
+const genPrompt = () => 'C:' + getPath(currFolder) + '>'
+const prompt = ref(genPrompt())
+
 const input = ref('')
 const output = ref(['Microsoft Windows [Version 10.0.22631.3880]'])
 const inputElement = ref(null)
@@ -29,18 +35,32 @@ const executeCommand = async () => {
     if (input.value.trim() === '') return
 
     const command = input.value.trim()
-    output.value.push(prompt + ' ' + command)
+    output.value.push(prompt.value + ' ' + command)
 
     if (command.startsWith('echo')) {
         output.value.push(command.slice(5))
     } else if (command === 'clear') {
         output.value.splice(0, output.value.length)
-    } else if (command === 'dir' || command === 'ls') {
-        output.value.push('Documents  Downloads  Music  Pictures  Videos')
+    } else if (command === 'pwd') {
+        output.value.push(getPath(currFolder))
+    } else if (command === 'dir') {
+        output.value.push(currFolder.children.map((e) => e.name).join('  '))
     } else if (command.startsWith('cd ')) {
         const path = command.slice(3)
-        if (path) {
-            output.value.push(`Changed directory to ${path}`)
+        if (path == '..') {
+            let parent = currFolder.parent
+
+            if (parent) {
+                currFolder = parent
+                output.value.push(`Changed directory to ${getPath(currFolder)}`)
+                prompt.value = genPrompt()
+            }
+        } else if (path) {
+            if (path && findPath(path, currFolder)) {
+                currFolder = findPath(path, currFolder)
+                output.value.push(`Changed directory to ${path}`)
+            }
+            prompt.value = genPrompt()
         } else {
             output.value.push('Usage: cd <directory>')
         }
@@ -48,7 +68,7 @@ const executeCommand = async () => {
         const now = new Date()
         output.value.push(now.toLocaleString())
     } else if (command === 'help') {
-        output.value.push('Available commands: echo, clear, dir, ls, cd, date, help, exit')
+        output.value.push('Available commands: echo, clear, dir, cd, date, help, exit')
     } else if (command === 'exit') {
         emit('exit-app')
     } else {

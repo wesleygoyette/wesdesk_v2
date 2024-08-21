@@ -16,7 +16,6 @@
 import { ref } from 'vue'
 import Desktop from './components/Desktop.vue'
 import Window from './components/Window.vue'
-import { v4 as uuid } from 'uuid'
 
 const windows = ref([])
 
@@ -27,6 +26,18 @@ const handleOpenWindow = (name) => {
             id: windows.value.length,
             name: 'Shell',
             programComponentPath: './programs/ShellProgram.vue'
+        })
+    } else if (name == 'File Explorer') {
+        windows.value.push({
+            id: windows.value.length,
+            name: 'File Explorer',
+            programComponentPath: './programs/FileExplorerProgram.vue'
+        })
+    } else if (name == 'Resume.pdf') {
+        windows.value.push({
+            id: windows.value.length,
+            name: 'Resume.pdf',
+            programComponentPath: './programs/PDFProgram.vue'
         })
     }
 }

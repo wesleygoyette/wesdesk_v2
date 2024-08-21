@@ -11,8 +11,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "pdfjs-dist": "^4.5.136",
     "uuid": "^10.0.0",
-    "vue": "^3.4.29"
+    "vue": "^3.4.29",
+    "vue-pdf-embed": "^2.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

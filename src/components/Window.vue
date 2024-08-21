@@ -1,20 +1,47 @@
 <template>
     <div class="container" :style="containerStyle">
-        <div @mousedown="startTopBarDrag" class="topBar">
-            <h5 class="name">{{ props.name }}</h5>
+        <div class="topBar">
+            <div class="dragger" @mousedown="startTopBarDrag">
+                <h5 class="name">{{ props.name }}</h5>
+            </div>
             <div class="topBarIconContainer">
-                <img src="/minus.svg" class="topBarIcon" @click="emit('close-window')" />
-                <img src="/fullscreen.png" class="topBarIcon" @click="toggleFullscreen" />
-                <img src="/cross.png" class="topBarIcon" @click="emit('close-window')" />
+                <img
+                    src="/minus.svg"
+                    class="topBarIcon"
+                    @click="emit('close-window')"
+                    draggable="false"
+                />
+                <img
+                    src="/fullscreen.png"
+                    class="topBarIcon"
+                    @click="toggleFullscreen"
+                    draggable="false"
+                />
+                <img
+                    src="/cross.png"
+                    class="topBarIcon"
+                    @click="emit('close-window')"
+                    draggable="false"
+                />
             </div>
         </div>
-        <component :is="programComponent" />
+        <div class="content">
+            <iframe
+                :src="props.programComponentPath"
+                width="100%"
+                height="100%"
+                frameborder="0"
+                v-show="!isDraggingOrResizing"
+            ></iframe>
+            <!-- Transparent overlay -->
+            <div v-show="isDraggingOrResizing" class="drag-resize-overlay"></div>
+        </div>
         <div class="scaleButton" @mousedown="startScaleDrag" />
     </div>
 </template>
 
 <script setup>
-import { ref, computed, defineAsyncComponent } from 'vue'
+import { ref, computed, defineEmits, defineProps } from 'vue'
 
 const emit = defineEmits(['close-window'])
 
@@ -29,8 +56,6 @@ const props = defineProps({
     }
 })
 
-const programComponent = defineAsyncComponent(() => import(props.programComponentPath))
-
 const width = ref(Math.min(window.innerWidth * 0.9, 700))
 const height = ref(width.value * 0.6)
 const top = ref(window.innerHeight / 2 - height.value / 2)
@@ -41,10 +66,14 @@ let scaleDragging = false
 let offsetX = 0
 let offsetY = 0
 
+const isDraggingOrResizing = ref(false)
+
 const toggleFullscreen = () => {
     if (
-        (top.value == 0 && left.value == 0 && width.value == window.innerWidth,
-        height.value == window.innerHeight)
+        top.value === 0 &&
+        left.value === 0 &&
+        width.value === window.innerWidth &&
+        height.value === window.innerHeight
     ) {
         top.value = window.innerHeight / 4
         left.value = window.innerWidth / 4
@@ -60,6 +89,7 @@ const toggleFullscreen = () => {
 
 const startScaleDrag = () => {
     scaleDragging = true
+    isDraggingOrResizing.value = true
 
     document.addEventListener('mousemove', scaleDrag)
     document.addEventListener('mouseup', endScaleDrag)
@@ -67,6 +97,7 @@ const startScaleDrag = () => {
 
 const startTopBarDrag = (e) => {
     topBarDragging = true
+    isDraggingOrResizing.value = true
 
     offsetX = e.clientX - left.value
     offsetY = e.clientY - top.value
@@ -95,6 +126,7 @@ const topBarDrag = (e) => {
 
 const endScaleDrag = () => {
     scaleDragging = false
+    isDraggingOrResizing.value = false
 
     document.removeEventListener('mousemove', scaleDrag)
     document.removeEventListener('mouseup', endScaleDrag)
@@ -102,6 +134,7 @@ const endScaleDrag = () => {
 
 const endTopBarDrag = () => {
     topBarDragging = false
+    isDraggingOrResizing.value = false
 
     document.removeEventListener('mousemove', topBarDrag)
     document.removeEventListener('mouseup', endTopBarDrag)
@@ -127,7 +160,7 @@ const constrain = (value, min, max) => {
 }
 
 .topBar {
-    padding: 0px 12px;
+    padding: 0px 12px 0px 0px;
     height: 30px;
     background-color: rgb(150, 150, 150);
     display: flex;
@@ -160,6 +193,21 @@ const constrain = (value, min, max) => {
     opacity: 70%;
 }
 
+.content {
+    flex-grow: 1;
+    position: relative;
+}
+
+.drag-resize-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 10;
+}
+
 .scaleButton {
     position: absolute;
     bottom: 0;
@@ -168,5 +216,13 @@ const constrain = (value, min, max) => {
     height: 20px;
     cursor: se-resize;
     user-select: none;
+}
+
+.dragger {
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 12px;
+    display: flex;
+    align-items: center;
 }
 </style>

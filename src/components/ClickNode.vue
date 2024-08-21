@@ -7,7 +7,7 @@
         draggable="false"
     >
         <img :src="props.imgUrl" :width="width" draggable="false" />
-        <p>{{ props.name }}</p>
+        <p :class="props.blackText ? 'blackText' : 'whiteText'">{{ props.name }}</p>
     </div>
 </template>
 
@@ -15,7 +15,7 @@
 import { computed, ref } from 'vue'
 
 const width = 54
-const hitBoxSize = width + 18
+const hitBoxSize = width + 26
 
 const props = defineProps({
     name: {
@@ -25,13 +25,19 @@ const props = defineProps({
     imgUrl: {
         type: String,
         required: true
+    },
+    blackText: {
+        type: Boolean,
+        default: false
     }
 })
 
 const emit = defineEmits(['double-click'])
 
 const selected = ref(0)
-const containerClass = computed(() => (selected.value == 1 ? 'containerSelected' : 'container'))
+const containerClass = computed(() =>
+    selected.value == 1 ? 'containerSelected' : 'clickNodeContainer'
+)
 let lastClick = Date.now()
 
 const handlePress = () => {
@@ -55,7 +61,7 @@ const handleOutsidePress = () => {
 </script>
 
 <style scoped>
-.container,
+.clickNodeContainer,
 .containerSelected {
     padding: 12px;
     display: flex;
@@ -69,7 +75,7 @@ const handleOutsidePress = () => {
     user-select: none;
 }
 
-.container:hover {
+.clickNodeContainer:hover {
     background-color: #aaaddb32;
     border: 1px solid #ffffff3e;
 }
@@ -84,14 +90,22 @@ const handleOutsidePress = () => {
     border: 1px solid #5962ee3e;
 }
 
-p {
+.whiteText,
+.blackText {
     text-align: center;
-    font-size: 13px;
+    font-size: 11px;
+}
+
+.whiteText {
     color: white;
     text-shadow:
         0.7px 0.7px 0 #000,
         -0.7px 0.7px 0 #000,
         -0.7px -0.7px 0 #000,
         0.7px -0.7px 0 #000;
+}
+
+.blackText {
+    color: black;
 }
 </style>
