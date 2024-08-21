@@ -39,6 +39,12 @@ const handleOpenWindow = (name) => {
             name: 'Resume.pdf',
             programComponentPath: './programs/PDFProgram.vue'
         })
+    } else if (name == 'Google Chrome') {
+        windows.value.push({
+            id: windows.value.length,
+            name: 'Chrome',
+            programComponentPath: './programs/BrowserProgram.vue'
+        })
     }
 }
 

@@ -25,23 +25,18 @@
                 />
             </div>
         </div>
-        <div class="content">
-            <iframe
-                :src="props.programComponentPath"
-                width="100%"
-                height="100%"
-                frameborder="0"
-                v-show="!isDraggingOrResizing"
-            ></iframe>
-            <!-- Transparent overlay -->
-            <div v-show="isDraggingOrResizing" class="drag-resize-overlay"></div>
-        </div>
+        <component
+            :is="programComponent"
+            class="iframe-container"
+            :style="iframeStyle"
+            @exit-app="emit('close-window')"
+        />
         <div class="scaleButton" @mousedown="startScaleDrag" />
     </div>
 </template>
 
 <script setup>
-import { ref, computed, defineEmits, defineProps } from 'vue'
+import { ref, computed, defineAsyncComponent } from 'vue'
 
 const emit = defineEmits(['close-window'])
 
@@ -56,6 +51,8 @@ const props = defineProps({
     }
 })
 
+const programComponent = defineAsyncComponent(() => import(props.programComponentPath))
+
 const width = ref(Math.min(window.innerWidth * 0.9, 700))
 const height = ref(width.value * 0.6)
 const top = ref(window.innerHeight / 2 - height.value / 2)
@@ -66,14 +63,14 @@ let scaleDragging = false
 let offsetX = 0
 let offsetY = 0
 
-const isDraggingOrResizing = ref(false)
+const iframeStyle = ref({
+    pointerEvents: 'auto'
+})
 
 const toggleFullscreen = () => {
     if (
-        top.value === 0 &&
-        left.value === 0 &&
-        width.value === window.innerWidth &&
-        height.value === window.innerHeight
+        (top.value == 0 && left.value == 0 && width.value == window.innerWidth,
+        height.value == window.innerHeight)
     ) {
         top.value = window.innerHeight / 4
         left.value = window.innerWidth / 4
@@ -88,16 +85,16 @@ const toggleFullscreen = () => {
 }
 
 const startScaleDrag = () => {
+    iframeStyle.value.pointerEvents = 'none' // Disable iframe interaction while scaling
     scaleDragging = true
-    isDraggingOrResizing.value = true
 
     document.addEventListener('mousemove', scaleDrag)
     document.addEventListener('mouseup', endScaleDrag)
 }
 
 const startTopBarDrag = (e) => {
+    iframeStyle.value.pointerEvents = 'none' // Disable iframe interaction while dragging
     topBarDragging = true
-    isDraggingOrResizing.value = true
 
     offsetX = e.clientX - left.value
     offsetY = e.clientY - top.value
@@ -125,16 +122,16 @@ const topBarDrag = (e) => {
 }
 
 const endScaleDrag = () => {
+    iframeStyle.value.pointerEvents = 'auto' // Re-enable iframe interaction
     scaleDragging = false
-    isDraggingOrResizing.value = false
 
     document.removeEventListener('mousemove', scaleDrag)
     document.removeEventListener('mouseup', endScaleDrag)
 }
 
 const endTopBarDrag = () => {
+    iframeStyle.value.pointerEvents = 'auto' // Re-enable iframe interaction
     topBarDragging = false
-    isDraggingOrResizing.value = false
 
     document.removeEventListener('mousemove', topBarDrag)
     document.removeEventListener('mouseup', endTopBarDrag)
@@ -193,21 +190,6 @@ const constrain = (value, min, max) => {
     opacity: 70%;
 }
 
-.content {
-    flex-grow: 1;
-    position: relative;
-}
-
-.drag-resize-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    z-index: 10;
-}
-
 .scaleButton {
     position: absolute;
     bottom: 0;
@@ -224,5 +206,10 @@ const constrain = (value, min, max) => {
     padding: 0px 0px 0px 12px;
     display: flex;
     align-items: center;
+}
+
+.iframe-container {
+    flex: 1;
+    overflow: hidden;
 }
 </style>

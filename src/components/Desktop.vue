@@ -37,6 +37,13 @@ const desktopNodes = ref([
         imgUrl: '/pdf.png',
         x: 0,
         y: 2
+    },
+    {
+        id: 1,
+        name: 'Google Chrome',
+        imgUrl: '/chrome.png',
+        x: 0,
+        y: 3
     }
 ])
 
