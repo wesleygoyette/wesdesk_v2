@@ -12,7 +12,9 @@
 import { computed, ref } from 'vue'
 
 // Reactive state for URL
-const url = ref('https://www.google.com')
+const url = ref(
+    'https://docs.google.com/document/d/1mFnu8CAZgKwEitbztQHHE1uRCLuOCFic/edit?usp=sharing&ouid=117095833660209236291&rtpof=true&sd=true'
+)
 
 // Computed property to ensure the URL has a valid protocol
 const formattedUrl = computed(() => {

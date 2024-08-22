@@ -32,18 +32,25 @@ const desktopNodes = ref([
         y: 1
     },
     {
-        id: 1,
+        id: 2,
         name: 'Resume.pdf',
         imgUrl: '/pdf.png',
-        x: 0,
-        y: 2
+        x: 1,
+        y: 0
     },
     {
-        id: 1,
+        id: 3,
         name: 'Google Chrome',
         imgUrl: '/chrome.png',
+        x: 1,
+        y: 1
+    },
+    {
+        id: 4,
+        name: 'Flappy Bird',
+        imgUrl: '/flappyBirdApp.png',
         x: 0,
-        y: 3
+        y: 2
     }
 ])
 

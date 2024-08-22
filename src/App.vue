@@ -45,6 +45,12 @@ const handleOpenWindow = (name) => {
             name: 'Chrome',
             programComponentPath: './programs/BrowserProgram.vue'
         })
+    } else if (name == 'Flappy Bird') {
+        windows.value.push({
+            id: windows.value.length,
+            name: 'Flappy Bird',
+            programComponentPath: './programs/FlappyBirdProgram.vue'
+        })
     }
 }
 
