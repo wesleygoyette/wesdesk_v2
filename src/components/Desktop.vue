@@ -20,35 +20,35 @@ const desktopNodes = ref([
     {
         id: 0,
         name: 'File Explorer',
-        imgUrl: '/fileExplorer.png',
+        imgUrl: '/wesdesk_v2/fileExplorer.png',
         x: 0,
         y: 0
     },
     {
         id: 1,
         name: 'Shell',
-        imgUrl: '/shell.png',
+        imgUrl: '/wesdesk_v2/shell.png',
         x: 0,
         y: 1
     },
     {
         id: 2,
         name: 'Resume.pdf',
-        imgUrl: '/pdf.png',
+        imgUrl: '/wesdesk_v2/pdf.png',
         x: 1,
         y: 0
     },
     {
         id: 3,
         name: 'Google Chrome',
-        imgUrl: '/chrome.png',
+        imgUrl: '/wesdesk_v2/chrome.png',
         x: 1,
         y: 1
     },
     {
         id: 4,
         name: 'Flappy Bird',
-        imgUrl: '/flappyBirdApp.png',
+        imgUrl: '/wesdesk_v2/flappyBirdApp.png',
         x: 0,
         y: 2
     }

@@ -6,19 +6,19 @@
             </div>
             <div class="topBarIconContainer">
                 <img
-                    src="/minus.svg"
+                    src="/wesdesk_v2/minus.svg"
                     class="topBarIcon"
                     @click="emit('close-window')"
                     draggable="false"
                 />
                 <img
-                    src="/fullscreen.png"
+                    src="/wesdesk_v2/fullscreen.png"
                     class="topBarIcon"
                     @click="toggleFullscreen"
                     draggable="false"
                 />
                 <img
-                    src="/cross.png"
+                    src="/wesdesk_v2/cross.png"
                     class="topBarIcon"
                     @click="emit('close-window')"
                     draggable="false"
