@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "deploy": "gh-pages -d dist",
+        "deploy": "vite build && git add dist && git commit -m 'Deploy' && git push origin `git subtree split --prefix dist main`:gh-pages --force",
         "preview": "vite preview",
         "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
         "format": "prettier --write src/"
