@@ -26,7 +26,7 @@
             </div>
         </div>
         <component
-            :is="programComponent"
+            v-bind:is="programComponent"
             class="iframe-container"
             :style="iframeStyle"
             @exit-app="emit('close-window')"
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, computed, defineAsyncComponent } from 'vue'
+import { ref, computed } from 'vue'
 
 const emit = defineEmits(['close-window'])
 
@@ -45,13 +45,28 @@ const props = defineProps({
         type: String,
         required: true
     },
-    programComponentPath: {
+    program: {
         type: String,
         required: true
     }
 })
 
-const programComponent = defineAsyncComponent(() => import(props.programComponentPath))
+import BrowserProgram from './programs/BrowserProgram.vue';
+import FileExplorerProgram from './programs/FileExplorerProgram.vue';
+import FlappyBirdProgram from './programs/FlappyBirdProgram.vue';
+import PDFProgram from './programs/BrowserProgram.vue';
+import ShellProgram from './programs/ShellProgram.vue';
+
+const programMap  = {
+
+    'BrowserProgram': BrowserProgram,
+    'FileExplorerProgram': FileExplorerProgram,
+    'FlappyBirdProgram': FlappyBirdProgram,
+    'PDFProgram': PDFProgram,
+    'ShellProgram': ShellProgram
+}
+
+const programComponent = programMap[props.program]
 
 const width = ref(Math.min(window.innerWidth * 0.9, 700))
 const height = ref(width.value * 0.6)

@@ -5,7 +5,7 @@
             v-for="(window, index) in windows"
             :key="window.id"
             :name="window.name"
-            :programComponentPath="window.programComponentPath"
+            :program="window.program"
             @close-window="handleCloseWindow(index)"
             @mousedown="focusApplicationWindow(index)"
         />
@@ -25,31 +25,31 @@ const handleOpenWindow = (name) => {
         windows.value.push({
             id: windows.value.length,
             name: 'Shell',
-            programComponentPath: './programs/ShellProgram.vue'
+            program: 'ShellProgram'
         })
     } else if (name == 'File Explorer') {
         windows.value.push({
             id: windows.value.length,
             name: 'File Explorer',
-            programComponentPath: './programs/FileExplorerProgram.vue'
+            program: 'FileExplorerProgram'
         })
     } else if (name == 'Resume.pdf') {
         windows.value.push({
             id: windows.value.length,
             name: 'Resume.pdf',
-            programComponentPath: './programs/PDFProgram.vue'
+            program: 'PDFProgram'
         })
     } else if (name == 'Google Chrome') {
         windows.value.push({
             id: windows.value.length,
             name: 'Chrome',
-            programComponentPath: './programs/BrowserProgram.vue'
+            program: 'BrowserProgram'
         })
     } else if (name == 'Flappy Bird') {
         windows.value.push({
             id: windows.value.length,
             name: 'Flappy Bird',
-            programComponentPath: './programs/FlappyBirdProgram.vue'
+            program: 'FlappyBirdProgram'
         })
     }
 }
