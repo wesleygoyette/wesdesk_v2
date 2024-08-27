@@ -54,7 +54,7 @@ const props = defineProps({
 import BrowserProgram from './programs/BrowserProgram.vue';
 import FileExplorerProgram from './programs/FileExplorerProgram.vue';
 import FlappyBirdProgram from './programs/FlappyBirdProgram.vue';
-import PDFProgram from './programs/BrowserProgram.vue';
+import PDFProgram from './programs/PDFProgram.vue';
 import ShellProgram from './programs/ShellProgram.vue';
 
 const programMap  = {
