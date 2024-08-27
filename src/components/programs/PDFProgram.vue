@@ -7,7 +7,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const pdfSrc = ref('/resume.pdf')
+const pdfSrc = ref(import.meta.env.BASE_URL + '/resume.pdf')
 </script>
 
 <style scoped>
