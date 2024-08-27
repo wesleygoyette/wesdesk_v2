@@ -6,7 +6,7 @@
         :style="{ width: hitBoxSize + 'px', height: hitBoxSize + 'px' }"
         draggable="false"
     >
-        <img :src="imageSrc" :width="width" draggable="false" />
+        <img :src="props.imgUrl" :width="width" draggable="false" />
         <p :class="props.blackText ? 'blackText' : 'whiteText'">{{ props.name }}</p>
     </div>
 </template>
@@ -33,8 +33,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['double-click'])
-
-const imageSrc = computed(() => import.meta.env.BASE_URL + props.imgUrl)
 
 const selected = ref(0)
 const containerClass = computed(() =>
