@@ -44,7 +44,7 @@ const desktopNodes = ref([
         imgUrl: '/chrome.png',
         x: 1,
         y: 1
-    },
+    }
     // {
     //     id: 4,
     //     name: 'Flappy Bird',
