@@ -45,13 +45,13 @@ const desktopNodes = ref([
         x: 1,
         y: 1
     },
-    {
-        id: 4,
-        name: 'Flappy Bird',
-        imgUrl: '/flappyBirdApp.png',
-        x: 0,
-        y: 2
-    }
+    // {
+    //     id: 4,
+    //     name: 'Flappy Bird',
+    //     imgUrl: '/flappyBirdApp.png',
+    //     x: 0,
+    //     y: 2
+    // }
 ])
 
 const emit = defineEmits(['node-opened'])
